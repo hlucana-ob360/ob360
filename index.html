@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OB360 — Modelos de Negocio España 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/*
+  PALETA ÚNICA — misma en ambos modelos
+  Fondo base:   #0e0f11
+  Superficie 1: #16181c  (bloques normales)
+  Superficie 2: #1c1f26  (bloques destacados)
+
+  5 colores de acento — cada uno con su fondo oscuro y texto claro:
+  A) Verde lima  bg:#0f1f0a  border:#3a6018  text:#a8d455   → recursos, canales, diferenciadores
+  B) Azul        bg:#0a1422  border:#1e3a5a  text:#5b9cf6   → socios, actividades
+  C) Teal        bg:#081a16  border:#1a4030  text:#3acba8   → segmentos, relación clientes
+  D) Ámbar       bg:#1c1406  border:#4a3410  text:#f0b030   → propuesta de valor
+  E) Púrpura     bg:#130e22  border:#362660  text:#9080e0   → ingresos, DT fases pares
+  Gris neutro:   bg:#141416  border:#2a2a2e  text:#888888   → costos, apps
+*/
+
+:root{
+  --bg:#0e0f11;
+  --bg1:#16181c;
+  --bg2:#1c1f26;
+  --border:#252830;
+  --text:#f0ede8;
+  --text2:#8a8680;
+  --text3:#4a4840;
+  --accent:#c8f075;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+
+  /* Color A — verde lima */
+  --ca-bg:#0f1f0a;--ca-bd:#3a6018;--ca-tx:#a8d455;--ca-tx2:#7aaa30;
+
+  /* Color B — azul */
+  --cb-bg:#0a1422;--cb-bd:#1e3a5a;--cb-tx:#5b9cf6;--cb-tx2:#3a7ad4;
+
+  /* Color C — teal */
+  --cc-bg:#081a16;--cc-bd:#1a4030;--cc-tx:#3acba8;--cc-tx2:#28a888;
+
+  /* Color D — ámbar */
+  --cd-bg:#1c1406;--cd-bd:#4a3410;--cd-tx:#f0b030;--cd-tx2:#c08820;
+
+  /* Color E — púrpura */
+  --ce-bg:#130e22;--ce-bd:#362660;--ce-tx:#9080e0;--ce-tx2:#6858b8;
+
+  /* Gris */
+  --cg-bg:#141416;--cg-bd:#2a2a2e;--cg-tx:#787470;--cg-tx2:#585450;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:52px;
+  background:rgba(14,15,17,0.96);backdrop-filter:blur(12px);
+  border-bottom:0.5px solid var(--border)
+}
+.nav-brand{font-size:13px;font-weight:500;color:var(--text2)}
+.nav-brand span{color:var(--accent)}
+.nav-tabs{display:flex;gap:6px;list-style:none}
+.nav-tabs button{
+  padding:0 1.25rem;height:34px;font-size:12px;font-weight:500;
+  color:var(--text3);background:transparent;
+  border:0.5px solid var(--border);border-radius:6px;
+  cursor:pointer;transition:all .2s;font-family:var(--sans);
+  letter-spacing:.02em
+}
+.nav-tabs button:hover{color:var(--text2);border-color:#363a45}
+.nav-tabs button.active{color:#0e0f11;background:var(--accent);border-color:var(--accent)}
+
+/* ── PANELS ── */
+.panel{display:none;padding-top:68px}
+.panel.active{display:block}
+.panel-inner{max-width:1200px;margin:0 auto;padding:2rem 2rem 4rem}
+
+/* ── HEADERS ── */
+.sec-eyebrow{
+  font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:.6rem;display:flex;align-items:center;gap:10px
+}
+.sec-eyebrow::before{content:'';width:18px;height:1px;background:var(--border)}
+.sec-headline{
+  font-family:var(--serif);font-size:clamp(1.6rem,2.4vw,2.3rem);
+  font-weight:400;line-height:1.15;color:var(--text);margin-bottom:.4rem
+}
+.sec-headline em{font-style:italic;color:var(--accent)}
+.sec-sub{font-size:13px;color:var(--text2);font-weight:300;margin-bottom:2rem;max-width:600px;line-height:1.7}
+
+/* ── SEPARATOR ── */
+.sep-bar{display:flex;align-items:center;gap:1rem;margin:2.5rem 0 2rem}
+.sep-line{flex:1;height:.5px;background:var(--border)}
+.sep-lbl{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);white-space:nowrap}
+
+/* ── BMC GRID ── */
+.bmc-top{display:grid;grid-template-columns:1fr 1fr 1.25fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;margin-bottom:3px}
+.bmc-bot{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+
+/* ── BASE CELL ── */
+.bc{background:var(--bg1);border:0.5px solid var(--border);border-radius:8px;padding:.8rem .9rem}
+.bc-lbl{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.45rem;display:block}
+
+/* ── ITEMS ── */
+.bi{font-size:11px;line-height:1.5;margin-bottom:2px;padding-left:10px;position:relative;font-weight:300;color:var(--text2)}
+.bi::before{content:'·';position:absolute;left:2px;color:var(--text3)}
+.bi.b{font-weight:500}
+.bsep{height:5px}
+.bdiv{height:.5px;background:var(--border);margin:5px 0}
+.apps-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px 8px}
+
+/* ── TAGS ── */
+.tag{display:inline-block;font-size:9px;font-weight:500;border-radius:4px;padding:2px 8px;margin-bottom:4px}
+.ta{background:var(--ca-bg);color:var(--ca-tx);border:0.5px solid var(--ca-bd)}
+.tb{background:var(--cb-bg);color:var(--cb-tx);border:0.5px solid var(--cb-bd)}
+.tc{background:var(--cc-bg);color:var(--cc-tx);border:0.5px solid var(--cc-bd)}
+.td{background:var(--cd-bg);color:var(--cd-tx);border:0.5px solid var(--cd-bd)}
+.te{background:var(--ce-bg);color:var(--ce-tx);border:0.5px solid var(--ce-bd)}
+.tg{background:var(--cg-bg);color:var(--cg-tx);border:0.5px solid var(--cg-bd)}
+
+/* ── COLORED CELLS ── */
+/* Propuesta de valor — ámbar */
+.vp{grid-row:1/3;background:var(--cd-bg);border-color:var(--cd-bd)}
+.vp .bc-lbl{color:var(--cd-tx2)}
+.vp .bi{color:var(--cd-tx2)}
+.vp .bi.b{color:var(--cd-tx)}
+.vp .bi::before{color:var(--cd-bd)}
+
+/* Segmentos — teal */
+.seg{grid-row:1/3;background:var(--cc-bg);border-color:var(--cc-bd)}
+.seg .bc-lbl{color:var(--cc-tx2)}
+.seg .bi{color:var(--cc-tx2)}
+.seg .bi.b{color:var(--cc-tx)}
+.seg .bi::before{color:var(--cc-bd)}
+
+/* Ingresos — púrpura */
+.rev{background:var(--ce-bg);border-color:var(--ce-bd)}
+.rev .bc-lbl{color:var(--ce-tx2)}
+.rev .bi{color:var(--ce-tx2)}
+.rev .bi.b{color:var(--ce-tx)}
+.rev .bi::before{color:var(--ce-bd)}
+
+/* Costos — gris */
+.cost{background:var(--cg-bg);border-color:var(--cg-bd)}
+.cost .bc-lbl{color:var(--cg-tx2)}
+.cost .bi{color:var(--cg-tx2)}
+.cost .bi.b{color:var(--cg-tx)}
+.cost .bi::before{color:var(--cg-bd)}
+
+/* ── OBA BOX — verde lima sobre ámbar ── */
+.oba-box{background:var(--ca-bg);border:0.5px solid var(--ca-bd);border-radius:6px;padding:8px 10px;margin-top:7px}
+.oba-title{font-size:10px;font-weight:500;color:var(--ca-tx);margin-bottom:3px}
+.oba-text{font-size:10.5px;color:var(--ca-tx2);line-height:1.5}
+
+/* ── DESIGN THINKING ── */
+.dt-legend{display:flex;gap:14px;justify-content:flex-end;margin-bottom:8px}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)}
+.ldot{width:6px;height:6px;border-radius:50%}
+
+.dt-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:10px}
+.dtp{border-radius:8px;padding:1rem .9rem;display:flex;flex-direction:column}
+.dtp-num{font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem}
+.dtp-title{font-family:var(--serif);font-size:1.1rem;font-weight:400;line-height:1.2;margin-bottom:.65rem}
+.dtp-item{font-size:11px;line-height:1.5;margin-bottom:3px;padding-left:11px;position:relative;font-weight:300}
+.dtp-item::before{content:'·';position:absolute;left:2px;font-size:13px;line-height:1.3}
+.dtp-item.b{font-weight:500}
+.dtp-sep{height:5px}
+.dtp-status{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:500;border-radius:4px;padding:3px 8px;margin-top:auto;padding-top:10px}
+.sdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* DT phase colors — 5 fases, 5 colores distintos, mismos en ambos modelos */
+/* Fase 1 — azul */
+.dtp.f1{background:var(--cb-bg);border:0.5px solid var(--cb-bd)}
+.dtp.f1 .dtp-num{color:var(--cb-tx2)}.dtp.f1 .dtp-title{color:var(--cb-tx)}
+.dtp.f1 .dtp-item{color:var(--cb-tx2)}.dtp.f1 .dtp-item::before{color:var(--cb-bd)}
+
+/* Fase 2 — púrpura */
+.dtp.f2{background:var(--ce-bg);border:0.5px solid var(--ce-bd)}
+.dtp.f2 .dtp-num{color:var(--ce-tx2)}.dtp.f2 .dtp-title{color:var(--ce-tx)}
+.dtp.f2 .dtp-item{color:var(--ce-tx2)}.dtp.f2 .dtp-item::before{color:var(--ce-bd)}
+
+/* Fase 3 — ámbar */
+.dtp.f3{background:var(--cd-bg);border:0.5px solid var(--cd-bd)}
+.dtp.f3 .dtp-num{color:var(--cd-tx2)}.dtp.f3 .dtp-title{color:var(--cd-tx)}
+.dtp.f3 .dtp-item{color:var(--cd-tx2)}.dtp.f3 .dtp-item::before{color:var(--cd-bd)}
+
+/* Fase 4 — teal */
+.dtp.f4{background:var(--cc-bg);border:0.5px solid var(--cc-bd)}
+.dtp.f4 .dtp-num{color:var(--cc-tx2)}.dtp.f4 .dtp-title{color:var(--cc-tx)}
+.dtp.f4 .dtp-item{color:var(--cc-tx2)}.dtp.f4 .dtp-item::before{color:var(--cc-bd)}
+
+/* Fase 5 — verde lima (próximo paso, borde doble) */
+.dtp.f5{background:var(--ca-bg);border:2px solid var(--ca-bd)}
+.dtp.f5 .dtp-num{color:var(--ca-tx2)}.dtp.f5 .dtp-title{color:var(--ca-tx)}
+.dtp.f5 .dtp-item{color:var(--ca-tx2)}.dtp.f5 .dtp-item::before{color:var(--ca-bd)}
+
+.s-done{background:var(--cc-bg);color:var(--cc-tx);border:0.5px solid var(--cc-bd)}
+.s-done .sdot{background:var(--cc-tx)}
+.s-next{background:var(--ca-bg);color:var(--ca-tx);border:0.5px solid var(--ca-bd)}
+.s-next .sdot{background:var(--ca-tx)}
+
+.dt-insight{background:var(--bg1);border:0.5px solid var(--border);border-radius:8px;padding:.9rem 1.1rem}
+.dt-insight-lbl{font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:.4rem;display:block}
+.dt-insight-txt{font-size:12px;color:var(--text2);line-height:1.7;font-weight:300}
+
+/* ── ANIMATIONS ── */
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.panel.active .anim{animation:fu .5s ease forwards;opacity:0}
+.anim:nth-child(1){animation-delay:.05s}.anim:nth-child(2){animation-delay:.13s}
+.anim:nth-child(3){animation-delay:.21s}.anim:nth-child(4){animation-delay:.29s}
+.anim:nth-child(5){animation-delay:.37s}
+
+footer{text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-top:.5px solid var(--border);margin-top:1rem}
+footer span{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">OB360 · <span>España 2026</span></div>
+  <ul class="nav-tabs">
+    <li><button class="active" onclick="sw('p1',this)">Modelo 1 — Fractional Executive</button></li>
+    <li><button onclick="sw('p2',this)">Modelo 2 — Fractional CFO</button></li>
+  </ul>
+</nav>
+
+<!-- ════════════════════════════════
+     PANEL 1 — FRACTIONAL EXECUTIVE
+════════════════════════════════ -->
+<div id="p1" class="panel active">
+<div class="panel-inner">
+
+  <!-- HEADER BMC1 -->
+  <div class="anim">
+    <div class="sec-eyebrow">Business Model Canvas · Modelo 1</div>
+    <h1 class="sec-headline">OB360 — <em>Fractional Executive</em></h1>
+    <p class="sec-sub">Plataforma que conecta consultores de élite con PYMEs españolas · OB Big Agency como diferenciador tecnológico exclusivo · España 2026</p>
+  </div>
+
+  <!-- BMC1 -->
+  <div class="anim">
+  <div class="bmc-top">
+
+    <!-- Col1: Socios clave — span 2 filas — azul -->
+    <div class="bc" style="grid-column:1;grid-row:1/3;background:var(--cb-bg);border-color:var(--cb-bd)">
+      <span class="bc-lbl" style="color:var(--cb-tx2)">Socios clave</span>
+      <span class="tag tb">Tecnología</span>
+      <div class="bi" style="color:var(--cb-tx2)">Anthropic — Claude API</div>
+      <div class="bi" style="color:var(--cb-tx2)">Google Cloud Run + Workspace</div>
+      <div class="bi" style="color:var(--cb-tx2)">HubSpot CRM · Apollo.io · Apify</div>
+      <div class="bsep"></div>
+      <span class="tag tb">Comunidad</span>
+      <div class="bi" style="color:var(--cb-tx2)">EAE Business School</div>
+      <div class="bi" style="color:var(--cb-tx2)">Redes de MBAs y posgrados</div>
+      <div class="bi" style="color:var(--cb-tx2)">Asociaciones empresariales</div>
+    </div>
+
+    <!-- Col2 fila1: Actividades clave — púrpura -->
+    <div class="bc" style="grid-column:2;grid-row:1;background:var(--ce-bg);border-color:var(--ce-bd)">
+      <span class="bc-lbl" style="color:var(--ce-tx2)">Actividades clave</span>
+      <span class="tag te">Plataforma</span>
+      <div class="bi" style="color:var(--ce-tx2)">Selección con IA y certificación de consultores</div>
+      <div class="bi" style="color:var(--ce-tx2)">Matching consultor–PYME</div>
+      <div class="bi" style="color:var(--ce-tx2)">Gestión y liderazgo de proyectos directos</div>
+      <div class="bsep"></div>
+      <span class="tag te">Tecnología IA</span>
+      <div class="bi" style="color:var(--ce-tx2)">Construcción y despliegue de OB Big Agency</div>
+      <div class="bi" style="color:var(--ce-tx2)">Mantenimiento de agencias IA activas</div>
+      <div class="bi" style="color:var(--ce-tx2)">Formación a consultores en IA aplicada</div>
+    </div>
+
+    <!-- Col3: Propuesta de valor — ámbar — span 2 filas -->
+    <div class="bc vp">
+      <span class="bc-lbl">Propuesta de valor</span>
+      <span class="tag tc">Para consultores</span>
+      <div class="bi b">De freelancer solitario a consultor de élite con marca, red y tecnología</div>
+      <div class="bi">Membresía con marca OB360 y herramientas IA incluidas</div>
+      <div class="bi">Ingresos predecibles: retainer + comisiones sobre clientes propios</div>
+      <div class="bdiv"></div>
+      <span class="tag tc">Para PYMEs</span>
+      <div class="bi b">Equipo directivo completo sin contratar a nadie en planilla</div>
+      <div class="bi">Expertos en finanzas, marketing, legal, RRHH, IA y operaciones</div>
+      <div class="bi">Un solo interlocutor: OB360 lidera y garantiza calidad</div>
+      <div class="oba-box">
+        <div class="oba-title">Diferenciador — OB Big Agency</div>
+        <div class="oba-text">Sistema de agentes autónomos de IA que actúan como equipo directivo digital 24/7. Cada agencia cubre un área: finanzas, atención, prospección, contabilidad y estrategia. Trabajan con datos reales del cliente, responden en lenguaje natural y se despliegan en días. Ninguna otra plataforma de Fractional Executives ofrece esto.</div>
+      </div>
+    </div>
+
+    <!-- Col4 fila1: Relación con clientes — teal -->
+    <div class="bc" style="grid-column:4;grid-row:1;background:var(--cc-bg);border-color:var(--cc-bd)">
+      <span class="bc-lbl" style="color:var(--cc-tx2)">Relación con clientes</span>
+      <span class="tag tc">Consultores</span>
+      <div class="bi b" style="color:var(--cc-tx)">Selección asistida por IA (perfil, fit, expertise)</div>
+      <div class="bi" style="color:var(--cc-tx2)">Onboarding con metodología OB360</div>
+      <div class="bi" style="color:var(--cc-tx2)">Sesiones Mastermind mensuales</div>
+      <div class="bi" style="color:var(--cc-tx2)">Comunidad exclusiva activa</div>
+      <div class="bsep"></div>
+      <span class="tag tc">PYMEs</span>
+      <div class="bi" style="color:var(--cc-tx2)">Discovery inicial 60 min</div>
+      <div class="bi" style="color:var(--cc-tx2)">OB360 como director de cuenta</div>
+      <div class="bi" style="color:var(--cc-tx2)">Reporting mensual de resultados</div>
+      <div class="bi" style="color:var(--cc-tx2)">Escalado progresivo de servicios</div>
+    </div>
+
+    <!-- Col5: Segmentos — teal — span 2 filas -->
+    <div class="bc seg">
+      <span class="bc-lbl">Segmentos</span>
+      <span class="tag tc">Lado consultor</span>
+      <div class="bi b">Egresados de posgrados</div>
+      <div class="bi">MBA · Finanzas · Marketing</div>
+      <div class="bi">Transformación Digital · IA</div>
+      <div class="bi">Derecho empresarial · RRHH</div>
+      <div class="bsep"></div>
+      <span class="tag tc">Lado PYME</span>
+      <div class="bi b">PYMEs españolas €1M–€50M</div>
+      <div class="bi">Sin dirección ejecutiva formal</div>
+      <div class="bi">Servicios, retail, industria, energía</div>
+    </div>
+
+    <!-- Col2 fila2: Recursos clave — verde lima -->
+    <div class="bc" style="grid-column:2;grid-row:2;background:var(--ca-bg);border-color:var(--ca-bd)">
+      <span class="bc-lbl" style="color:var(--ca-tx2)">Recursos clave</span>
+      <span class="tag ta">Tecnología IA</span>
+      <div class="bi b" style="color:var(--ca-tx)">OB Big Agency — 5 agencias en producción</div>
+      <div class="bi" style="color:var(--ca-tx2)">Framework OB v3.2 + Prompts Maestros</div>
+      <div class="bi" style="color:var(--ca-tx2)">OB Builder Agent</div>
+      <div class="bsep"></div>
+      <span class="tag ta">Capital humano</span>
+      <div class="bi" style="color:var(--ca-tx2)">Red de consultores certificados</div>
+      <div class="bi" style="color:var(--ca-tx2)">Know-how CFO + IA · Hans Lucana</div>
+      <div class="bi" style="color:var(--ca-tx2)">Metodología y marca OB360</div>
+    </div>
+
+    <!-- Col4 fila2: Canales — azul -->
+    <div class="bc" style="grid-column:4;grid-row:2;background:var(--cb-bg);border-color:var(--cb-bd)">
+      <span class="bc-lbl" style="color:var(--cb-tx2)">Canales</span>
+      <span class="tag tb">Captación consultores</span>
+      <div class="bi" style="color:var(--cb-tx2)">LinkedIn Sales Navigator</div>
+      <div class="bi" style="color:var(--cb-tx2)">EAE y redes de posgrados</div>
+      <div class="bi" style="color:var(--cb-tx2)">Referidos de la red OB360</div>
+      <div class="bsep"></div>
+      <span class="tag tb">Captación PYMEs</span>
+      <div class="bi" style="color:var(--cb-tx2)">LinkedIn outreach directo</div>
+      <div class="bi" style="color:var(--cb-tx2)">Demo en vivo OB Big Agency</div>
+      <div class="bi" style="color:var(--cb-tx2)">Webinars y contenido de valor</div>
+      <div class="bi" style="color:var(--cb-tx2)">Consultores OB360 como canal</div>
+    </div>
+
+  </div>
+
+  <div class="bmc-bot">
+    <div class="bc cost">
+      <span class="bc-lbl">Estructura de costos</span>
+      <span class="tag tg">IA y automatización</span>
+      <div class="apps-grid">
+        <div class="bi">Claude (Anthropic)</div><div class="bi">Apollo.io</div>
+        <div class="bi">Apify</div><div class="bi">Google Cloud Run</div>
+      </div>
+      <div class="bsep"></div>
+      <span class="tag tg">Infraestructura y operaciones</span>
+      <div class="apps-grid">
+        <div class="bi">Google Workspace</div><div class="bi">Odoo</div>
+        <div class="bi">HubSpot CRM</div><div class="bi">WhatsApp Business</div>
+        <div class="bi">Trello</div>
+      </div>
+      <div class="bsep"></div>
+      <span class="tag tg">Marketing y comunicación</span>
+      <div class="apps-grid">
+        <div class="bi">LinkedIn Sales Navigator</div><div class="bi">Canva</div>
+        <div class="bi">Gamma</div><div class="bi">Invideo AI</div>
+      </div>
+      <div class="bsep"></div>
+      <span class="tag tg">Personal</span>
+      <div class="bi b">Pago por horas a consultores (proyectos OB360 directos)</div>
+      <div class="bi b">Salario staff administrativo OB360</div>
+    </div>
+    <div class="bc rev">
+      <span class="bc-lbl">Fuentes de ingresos</span>
+      <span class="tag te">Lado consultor</span>
+      <div class="bi b">Membresía mensual consultor</div>
+      <div class="bi b">Comisión 10–15% sobre facturación bajo marca OB360</div>
+      <div class="bsep"></div>
+      <span class="tag te">Lado PYME — proyectos OB360 directos</span>
+      <div class="bi">Paquete Lanzamiento — modelo de negocio y estrategia inicial</div>
+      <div class="bi">Paquete Crecimiento — dirección ejecutiva fraccional continua</div>
+      <div class="bi">Paquete Personalizado — soluciones a medida</div>
+      <div class="bsep"></div>
+      <span class="tag te">OB Big Agency — tecnología IA</span>
+      <div class="bi">Agencia individual (Finance Report, Atención, Prospección...)</div>
+      <div class="bi">Suite completa — 5 agencias integradas</div>
+      <div class="bi">Réplica sectorial — versión preconfigurada por industria</div>
+      <div class="bi">Retainer mensual — mantenimiento y mejora continua</div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Diferenciadores — texto aparte, sin bloque ni título de sección -->
+  <div class="anim" style="margin-top:10px;padding:0 2px">
+    <p style="font-size:12px;color:var(--text3);line-height:1.8;font-weight:300">
+      <span style="color:var(--ca-tx);font-weight:500">Diferenciadores estratégicos:</span>
+      Única plataforma con IA integrada como servicio base · El consultor llega con tecnología, no solo experiencia · OB360 como marca paraguas que respalda al consultor · Modelo replicable a cualquier sector o ciudad · Ecosistema digital completo ya operativo
+    </p>
+  </div>
+
+  <!-- SEP + DT1 -->
+  <div class="sep-bar anim"><div class="sep-line"></div><div class="sep-lbl">Design Thinking · Modelo 1</div><div class="sep-line"></div></div>
+
+  <div class="anim">
+    <div class="sec-eyebrow">Metodología Design Thinking</div>
+    <h1 class="sec-headline">Hoja de ruta — <em>Fractional Executive</em></h1>
+    <p class="sec-sub">Cómo OB360 identificó, definió y prototipó el modelo de plataforma con OB Big Agency como diferenciador tecnológico exclusivo.</p>
+  </div>
+
+  <div class="dt-legend anim">
+    <div class="leg"><div class="ldot" style="background:var(--cc-tx)"></div>Fase completada</div>
+    <div class="leg"><div class="ldot" style="background:var(--ca-tx)"></div>Próximo paso</div>
+  </div>
+
+  <div class="dt-grid anim">
+    <div class="dtp f1">
+      <span class="dtp-num">Fase 1</span>
+      <span class="dtp-title">Empatizar</span>
+      <div class="dtp-item b">Dolor del consultor independiente</div>
+      <div class="dtp-item">Ingresos inestables y soledad profesional</div>
+      <div class="dtp-item">Tiene expertise pero no sistema para monetizarlo</div>
+      <div class="dtp-item">Rezago tecnológico frente a la IA</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Dolor de la PYME española</div>
+      <div class="dtp-item">No puede pagar equipos directivos completos</div>
+      <div class="dtp-item">Fundador decide sin datos suficientes</div>
+      <div class="dtp-item">Curva de aprendizaje empinada en cada área</div>
+      <span class="dtp-status s-done"><div class="sdot"></div>Completada</span>
+    </div>
+    <div class="dtp f2">
+      <span class="dtp-num">Fase 2</span>
+      <span class="dtp-title">Definir</span>
+      <div class="dtp-item b">Problema del consultor</div>
+      <div class="dtp-item">Profesional senior con conocimiento valioso pero sin marca, tecnología ni sistema de captación</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Problema de la PYME</div>
+      <div class="dtp-item">Las PYMEs €1M–€50M necesitan talento directivo que no pueden pagar en planilla</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Brecha identificada</div>
+      <div class="dtp-item">No existe plataforma que conecte ambos mundos con IA integrada como servicio base</div>
+      <span class="dtp-status s-done"><div class="sdot"></div>Completada</span>
+    </div>
+    <div class="dtp f3">
+      <span class="dtp-num">Fase 3</span>
+      <span class="dtp-title">Idear</span>
+      <div class="dtp-item b">La solución: OB360 Fractional Executive</div>
+      <div class="dtp-item">Consultores bajo marca OB360 con membresía y comisión 10–15%</div>
+      <div class="dtp-item">PYMEs acceden a equipo directivo completo sin contratar</div>
+      <div class="dtp-item">OB Big Agency como diferenciador tecnológico exclusivo</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Modelo de ingresos dual</div>
+      <div class="dtp-item">Membresía + comisión al consultor</div>
+      <div class="dtp-item">Honorarios de proyecto a la PYME</div>
+      <span class="dtp-status s-done"><div class="sdot"></div>Completada</span>
+    </div>
+    <div class="dtp f4">
+      <span class="dtp-num">Fase 4</span>
+      <span class="dtp-title">Prototipar</span>
+      <div class="dtp-item b">OB360 operando en Perú</div>
+      <div class="dtp-item">Equipo fundador: Hans + Daniza + Davide</div>
+      <div class="dtp-item">Cliente real externo: Acogas (energético)</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">OB Big Agency — 5 agencias en producción</div>
+      <div class="dtp-item">Finance Report, Sire Odoo, Atention, Prospection, Executive Board</div>
+      <div class="dtp-item">Framework v3.2, Prompts Maestros y OB Builder documentados</div>
+      <div class="dtp-item">Propuesta comercial, Discovery Brief y Onboarding listos</div>
+      <span class="dtp-status s-done"><div class="sdot"></div>Completada</span>
+    </div>
+    <div class="dtp f5">
+      <span class="dtp-num">Fase 5</span>
+      <span class="dtp-title">Testear</span>
+      <div class="dtp-item b">Próximos pasos — España 2026</div>
+      <div class="dtp-item">Reclutar primeros consultores vía EAE y redes de posgrado</div>
+      <div class="dtp-item">Captar 3–5 PYMEs piloto para validar el modelo en España</div>
+      <div class="dtp-item">Testear pricing de membresía y comisión con consultores reales</div>
+      <div class="dtp-item">Validar OB Big Agency como diferenciador percibido por el mercado español</div>
+      <div class="dtp-item">Ajustar propuesta de valor según feedback del mercado</div>
+      <span class="dtp-status s-next"><div class="sdot"></div>En curso — España</span>
+    </div>
+  </div>
+
+  <div class="dt-insight anim">
+    <span class="dt-insight-lbl">Estado actual del proyecto</span>
+    <span class="dt-insight-txt">Las cuatro primeras fases están completadas con evidencia real: tecnología en producción, cliente externo validado y equipo fundador operativo en tres países. El único paso pendiente es testear el modelo en el mercado español.</span>
+  </div>
+
+</div>
+</div>
+
+<!-- ════════════════════════════════
+     PANEL 2 — FRACTIONAL CFO
+════════════════════════════════ -->
+<div id="p2" class="panel">
+<div class="panel-inner">
+
+  <!-- HEADER BMC2 -->
+  <div class="anim">
+    <div class="sec-eyebrow">Business Model Canvas · Modelo 2</div>
+    <h1 class="sec-headline">OB360 — <em>Fractional CFO</em></h1>
+    <p class="sec-sub">Plataforma que conecta CFOs senior con PYMEs españolas · OB Big Agency financiera como diferenciador · Primera fase España 2026</p>
+  </div>
+
+  <!-- BMC2 — misma paleta, misma asignación de colores por bloque -->
+  <div class="anim">
+  <div class="bmc-top">
+
+    <!-- Col1: Socios clave — span 2 filas — azul -->
+    <div class="bc" style="grid-column:1;grid-row:1/3;background:var(--cb-bg);border-color:var(--cb-bd)">
+      <span class="bc-lbl" style="color:var(--cb-tx2)">Socios clave</span>
+      <span class="tag tb">Tecnología</span>
+      <div class="bi" style="color:var(--cb-tx2)">Anthropic — Claude API</div>
+      <div class="bi" style="color:var(--cb-tx2)">Google Cloud Run + Workspace</div>
+      <div class="bi" style="color:var(--cb-tx2)">HubSpot CRM · Odoo</div>
+      <div class="bsep"></div>
+      <span class="tag tb">Red CFO</span>
+      <div class="bi" style="color:var(--cb-tx2)">EAE Business School</div>
+      <div class="bi" style="color:var(--cb-tx2)">Posgrados en finanzas España</div>
+      <div class="bi" style="color:var(--cb-tx2)">Compañeros de maestría — fase 1</div>
+      <div class="bi" style="color:var(--cb-tx2)">Asociaciones de directivos financieros</div>
+    </div>
+
+    <!-- Col2 fila1: Actividades clave — púrpura -->
+    <div class="bc" style="grid-column:2;grid-row:1;background:var(--ce-bg);border-color:var(--ce-bd)">
+      <span class="bc-lbl" style="color:var(--ce-tx2)">Actividades clave</span>
+      <span class="tag te">Consultoría CFO</span>
+      <div class="bi" style="color:var(--ce-tx2)">Dirección financiera fraccional a PYMEs</div>
+      <div class="bi" style="color:var(--ce-tx2)">Gestión de tesorería y previsión de caja</div>
+      <div class="bi" style="color:var(--ce-tx2)">Reporting ejecutivo y cuadro de mando</div>
+      <div class="bsep"></div>
+      <span class="tag te">IA financiera</span>
+      <div class="bi" style="color:var(--ce-tx2)">Deploy de OB Finance Report</div>
+      <div class="bi" style="color:var(--ce-tx2)">Automatización de informes ejecutivos</div>
+      <div class="bi" style="color:var(--ce-tx2)">Formación del equipo del cliente en IA</div>
+    </div>
+
+    <!-- Propuesta de valor — ámbar -->
+    <div class="bc vp">
+      <span class="bc-lbl">Propuesta de valor</span>
+      <span class="tag tc">Para CFOs consultores</span>
+      <div class="bi b">Practica tu expertise CFO bajo una marca establecida con tecnología IA incluida</div>
+      <div class="bi">Clientes desde el día 1 vía red OB360</div>
+      <div class="bi">Ingresos predecibles: membresía + comisión sobre clientes propios</div>
+      <div class="bi">Comunidad de CFOs senior para casos complejos</div>
+      <div class="bdiv"></div>
+      <span class="tag tc">Para PYMEs</span>
+      <div class="bi b">Un CFO senior sin el costo de uno en planilla</div>
+      <div class="bi">Control financiero real: previsión de caja, P&amp;L y capital de trabajo</div>
+      <div class="bi">Decisiones con datos reales, no con intuición</div>
+      <div class="oba-box">
+        <div class="oba-title">Diferenciador — OB Big Agency</div>
+        <div class="oba-text">El CFO llega acompañado de agentes IA especializados en finanzas. OB Finance Report genera automáticamente el informe ejecutivo diario que un CFO tradicional tarda horas en preparar. OB Sire Odoo permite consultar cualquier dato contable en segundos. CFO humano + inteligencia financiera digital 24/7. Ningún competidor ofrece esto.</div>
+      </div>
+    </div>
+
+    <!-- Relación clientes — teal -->
+    <div class="bc" style="grid-column:4;grid-row:1;background:var(--cc-bg);border-color:var(--cc-bd)">
+      <span class="bc-lbl" style="color:var(--cc-tx2)">Relación con clientes</span>
+      <span class="tag tc">CFOs consultores</span>
+      <div class="bi b" style="color:var(--cc-tx)">Selección asistida por IA (perfil, fit, expertise)</div>
+      <div class="bi" style="color:var(--cc-tx2)">Onboarding en metodología OB360</div>
+      <div class="bi" style="color:var(--cc-tx2)">Capacitación en OB Finance Report</div>
+      <div class="bi" style="color:var(--cc-tx2)">Supervisión de calidad Hans</div>
+      <div class="bsep"></div>
+      <span class="tag tc">PYMEs</span>
+      <div class="bi" style="color:var(--cc-tx2)">Discovery financiero 60 min</div>
+      <div class="bi" style="color:var(--cc-tx2)">CFO asignado como interlocutor único</div>
+      <div class="bi" style="color:var(--cc-tx2)">Reunión mensual de resultados</div>
+      <div class="bi" style="color:var(--cc-tx2)">Escalado a suite completa OB360</div>
+    </div>
+
+    <!-- Segmentos — teal -->
+    <div class="bc seg">
+      <span class="bc-lbl">Segmentos</span>
+      <span class="tag tc">Lado CFO consultor</span>
+      <div class="bi b">Egresados de posgrados en finanzas</div>
+      <div class="bi">Maestrías en Dirección Financiera</div>
+      <div class="bi">MBAs con especialidad financiera</div>
+      <div class="bi">CFOs en activo que quieren escalar</div>
+      <div class="bi">Compañeros EAE — fase inicial</div>
+      <div class="bsep"></div>
+      <span class="tag tc">Lado PYME</span>
+      <div class="bi b">PYMEs españolas €1M–€50M</div>
+      <div class="bi">Sin CFO o con controller sin visión estratégica</div>
+      <div class="bi">Servicios, retail, industria, energía</div>
+    </div>
+
+    <!-- Col2 fila2: Recursos clave — verde lima -->
+    <div class="bc" style="grid-column:2;grid-row:2;background:var(--ca-bg);border-color:var(--ca-bd)">
+      <span class="bc-lbl" style="color:var(--ca-tx2)">Recursos clave</span>
+      <span class="tag ta">Tecnología IA financiera</span>
+      <div class="bi b" style="color:var(--ca-tx)">OB Finance Report (PMV validado)</div>
+      <div class="bi" style="color:var(--ca-tx2)">OB Sire Odoo — datos contables</div>
+      <div class="bi" style="color:var(--ca-tx2)">OB Executive Board — estrategia</div>
+      <div class="bi" style="color:var(--ca-tx2)">Framework OB v3.2</div>
+      <div class="bsep"></div>
+      <span class="tag ta">Capital humano</span>
+      <div class="bi" style="color:var(--ca-tx2)">Hans Lucana — CFO fundador</div>
+      <div class="bi" style="color:var(--ca-tx2)">Red de CFOs certificados OB360</div>
+      <div class="bi" style="color:var(--ca-tx2)">Metodología financiera propia</div>
+    </div>
+
+    <!-- Col4 fila2: Canales — azul -->
+    <div class="bc" style="grid-column:4;grid-row:2;background:var(--cb-bg);border-color:var(--cb-bd)">
+      <span class="bc-lbl" style="color:var(--cb-tx2)">Canales</span>
+      <span class="tag tb">Captación CFOs</span>
+      <div class="bi" style="color:var(--cb-tx2)">LinkedIn Sales Navigator</div>
+      <div class="bi" style="color:var(--cb-tx2)">EAE + redes de posgrados finanzas</div>
+      <div class="bi" style="color:var(--cb-tx2)">Referidos de la red OB360</div>
+      <div class="bsep"></div>
+      <span class="tag tb">Captación PYMEs</span>
+      <div class="bi" style="color:var(--cb-tx2)">LinkedIn outreach a gerentes financieros</div>
+      <div class="bi" style="color:var(--cb-tx2)">Demo OB Finance Report en vivo</div>
+      <div class="bi" style="color:var(--cb-tx2)">Red EAE y contactos empresariales</div>
+      <div class="bi" style="color:var(--cb-tx2)">CFOs OB360 como canal de captación</div>
+    </div>
+
+  </div>
+
+  <div class="bmc-bot">
+    <!-- Costos — gris -->
+    <div class="bc cost">
+      <span class="bc-lbl">Estructura de costos</span>
+      <span class="tag tg">IA y automatización</span>
+      <div class="apps-grid">
+        <div class="bi">Claude (Anthropic)</div><div class="bi">Apollo.io</div>
+        <div class="bi">Apify</div><div class="bi">Google Cloud Run</div>
+      </div>
+      <div class="bsep"></div>
+      <span class="tag tg">Infraestructura y operaciones</span>
+      <div class="apps-grid">
+        <div class="bi">Google Workspace</div><div class="bi">Odoo</div>
+        <div class="bi">HubSpot CRM</div><div class="bi">WhatsApp Business</div>
+        <div class="bi">Trello</div>
+      </div>
+      <div class="bsep"></div>
+      <span class="tag tg">Marketing y comunicación</span>
+      <div class="apps-grid">
+        <div class="bi">LinkedIn Sales Navigator</div><div class="bi">Canva</div>
+        <div class="bi">Gamma</div><div class="bi">Invideo AI</div>
+      </div>
+      <div class="bsep"></div>
+      <span class="tag tg">Personal</span>
+      <div class="bi b">Pago por horas a CFOs consultores (proyectos OB360 directos)</div>
+      <div class="bi b">Salario staff administrativo OB360</div>
+    </div>
+    <!-- Ingresos — púrpura -->
+    <div class="bc rev">
+      <span class="bc-lbl">Fuentes de ingresos</span>
+      <span class="tag te">Lado CFO consultor</span>
+      <div class="bi b">Membresía mensual CFO consultor</div>
+      <div class="bi b">Comisión 10–15% sobre facturación bajo marca OB360</div>
+      <div class="bsep"></div>
+      <span class="tag te">Lado PYME — consultoría CFO</span>
+      <div class="bi">Paquete CFO Mensual — dirección financiera fraccional continua</div>
+      <div class="bi">Paquete CFO Estratégico — proyectos de alto impacto</div>
+      <div class="bi">Paquete Personalizado — soluciones a medida</div>
+      <div class="bsep"></div>
+      <span class="tag te">OB Big Agency — tecnología IA financiera</span>
+      <div class="bi">OB Finance Report — informe ejecutivo automático</div>
+      <div class="bi">OB Sire Odoo — inteligencia contable en tiempo real</div>
+      <div class="bi">Suite financiera completa — agencias integradas</div>
+      <div class="bi">Retainer mensual — mantenimiento y mejora continua</div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Diferenciadores — texto aparte, sin bloque ni título de sección -->
+  <div class="anim" style="margin-top:10px;padding:0 2px">
+    <p style="font-size:12px;color:var(--text3);line-height:1.8;font-weight:300">
+      <span style="color:var(--ca-tx);font-weight:500">Diferenciadores vs. competencia:</span>
+      CFO humano + agencia IA financiera integrada · OB Finance Report genera en segundos lo que el CFO tradicional prepara en horas · Precio: fracción del costo de un CFO en plantilla · Escalable: de Hans a red de CFOs bajo OB360 · Puerta de entrada al Modelo 1 completo
+    </p>
+  </div>
+
+  <!-- SEP + DT2 -->
+  <div class="sep-bar anim"><div class="sep-line"></div><div class="sep-lbl">Design Thinking · Modelo 2</div><div class="sep-line"></div></div>
+
+  <div class="anim">
+    <div class="sec-eyebrow">Metodología Design Thinking</div>
+    <h1 class="sec-headline">Hoja de ruta — <em>Fractional CFO</em></h1>
+    <p class="sec-sub">Cómo OB360 identificó el dolor financiero de la PYME española y construyó el Fractional CFO potenciado con IA como puerta de entrada al mercado europeo.</p>
+  </div>
+
+  <div class="dt-legend anim">
+    <div class="leg"><div class="ldot" style="background:var(--cc-tx)"></div>Fase completada</div>
+    <div class="leg"><div class="ldot" style="background:var(--ca-tx)"></div>Próximo paso</div>
+  </div>
+
+  <div class="dt-grid anim">
+    <div class="dtp f1">
+      <span class="dtp-num">Fase 1</span>
+      <span class="dtp-title">Empatizar</span>
+      <div class="dtp-item b">Dolor del CFO consultor</div>
+      <div class="dtp-item">Vende horas, no valor — techo de ingresos natural</div>
+      <div class="dtp-item">Sin marca para cobrar tarifas premium</div>
+      <div class="dtp-item">Desconectado de la IA que transforma las finanzas</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Dolor de la PYME española</div>
+      <div class="dtp-item">El dueño hace de CFO sin serlo — decide sin datos</div>
+      <div class="dtp-item">No puede pagar un CFO en planilla (€60K–€90K/año)</div>
+      <div class="dtp-item">Controller con visión operativa, no estratégica</div>
+      <span class="dtp-status s-done"><div class="sdot"></div>Completada</span>
+    </div>
+    <div class="dtp f2">
+      <span class="dtp-num">Fase 2</span>
+      <span class="dtp-title">Definir</span>
+      <div class="dtp-item b">Problema del CFO consultor</div>
+      <div class="dtp-item">Profesional senior con expertise financiero probado pero sin sistema que convierta ese conocimiento en ingresos escalables</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Problema de la PYME</div>
+      <div class="dtp-item">Necesita dirección financiera estratégica real pero no puede costear un CFO a tiempo completo</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Brecha crítica</div>
+      <div class="dtp-item">Ningún Fractional CFO en España llega con inteligencia financiera IA integrada como estándar</div>
+      <span class="dtp-status s-done"><div class="sdot"></div>Completada</span>
+    </div>
+    <div class="dtp f3">
+      <span class="dtp-num">Fase 3</span>
+      <span class="dtp-title">Idear</span>
+      <div class="dtp-item b">La solución: OB360 Fractional CFO</div>
+      <div class="dtp-item">CFO humano senior + OB Big Agency financiera como combo inseparable</div>
+      <div class="dtp-item">CFO consultor opera bajo marca OB360 con membresía y comisión</div>
+      <div class="dtp-item">OB Finance Report y OB Sire Odoo como herramientas exclusivas</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Ventaja competitiva</div>
+      <div class="dtp-item">El CFO OB360 entrega en horas lo que un CFO tradicional tarda días</div>
+      <span class="dtp-status s-done"><div class="sdot"></div>Completada</span>
+    </div>
+    <div class="dtp f4">
+      <span class="dtp-num">Fase 4</span>
+      <span class="dtp-title">Prototipar</span>
+      <div class="dtp-item b">Validación real — Acogas, Lima (Perú)</div>
+      <div class="dtp-item">OB Finance Report en producción con cliente real externo</div>
+      <div class="dtp-item">OB Sire Odoo: consulta contable en lenguaje natural operativa</div>
+      <div class="dtp-sep"></div>
+      <div class="dtp-item b">Hans como CFO fundador</div>
+      <div class="dtp-item">Maestría en Dirección Financiera — EAE Barcelona</div>
+      <div class="dtp-item">Perfil único: CFO + arquitecto de IA</div>
+      <div class="dtp-item">Modelo documentado y replicable a otros CFOs</div>
+      <span class="dtp-status s-done"><div class="sdot"></div>Completada</span>
+    </div>
+    <div class="dtp f5">
+      <span class="dtp-num">Fase 5</span>
+      <span class="dtp-title">Testear</span>
+      <div class="dtp-item b">Próximos pasos — España 2026</div>
+      <div class="dtp-item">Reclutar 2–3 CFOs piloto vía EAE y compañeros de maestría</div>
+      <div class="dtp-item">Captar 3–5 PYMEs piloto para validar Fractional CFO + IA en España</div>
+      <div class="dtp-item">Medir si OB Finance Report reduce tiempo de reporting</div>
+      <div class="dtp-item">Validar pricing de membresía y paquetes en el contexto europeo</div>
+      <div class="dtp-item">Modelo 2 como trampolín al Modelo 1 completo</div>
+      <span class="dtp-status s-next"><div class="sdot"></div>En curso — España</span>
+    </div>
+  </div>
+
+  <div class="dt-insight anim">
+    <span class="dt-insight-lbl">Estado actual del proyecto</span>
+    <span class="dt-insight-txt">El PMV financiero está validado con un cliente real en Perú. El Modelo 2 es el camino de menor riesgo para arrancar en España: Hans ya es el CFO, la tecnología está lista y los primeros consultores CFO están al alcance de la red EAE. Testear en España es el único paso que falta.</span>
+  </div>
+
+</div>
+</div>
+
+<footer>OB360 · On Board 360 · <span>Hans Lucana</span> · hlucana@ob-360.com · Barcelona · Lima · Milán</footer>
+
+<script>
+function sw(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tabs button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
