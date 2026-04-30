@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OB-360 · Oferta de Servicios</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1a2332;--navy-mid:#243044;--navy-light:#2d3d52;
+  --blue:#4a9eff;--green:#3ecf8e;--gold:#c9a84c;
+  --warm:#e8a855;--text:#f0f4f8;--muted:#8fa3b8;
+  --border:rgba(255,255,255,0.08);
+}
+body{background:var(--navy);font-family:'DM Sans',sans-serif;font-weight:300;color:var(--text);min-height:100vh}
+
+/* TABS */
+.tabs-nav{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 40px;background:var(--navy);position:sticky;top:0;z-index:100}
+.tab-btn{padding:16px 28px;font-size:13px;font-weight:400;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;letter-spacing:.02em;font-family:'DM Sans',sans-serif}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active-blue{color:var(--blue);border-bottom-color:var(--blue)}
+.tab-btn.active-gold{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* SHARED PAGE */
+.page{max-width:860px;margin:0 auto;padding:48px 40px}
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.logo-text{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-.5px}
+.logo-sub{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.header-right{text-align:right}
+.pill{display:inline-block;font-size:10px;font-weight:500;padding:3px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.05em}
+.pill-blue{background:rgba(74,158,255,.1);border:1px solid rgba(74,158,255,.25);color:var(--blue)}
+.pill-gold{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--gold)}
+.doc-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.doc-title{font-family:'DM Serif Display',serif;font-size:20px}
+.intro{margin-bottom:36px}
+.headline{font-family:'DM Serif Display',serif;font-size:32px;line-height:1.2;margin-bottom:12px}
+.headline em{font-style:italic}
+.headline-blue em{color:var(--blue)}
+.headline-gold em{color:var(--gold)}
+.intro-body{font-size:13px;color:var(--muted);max-width:580px;line-height:1.7}
+.tag{display:inline-block;font-size:10px;font-weight:500;padding:4px 12px;border-radius:20px;margin-top:12px;letter-spacing:.03em}
+.tag-blue{background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.15);color:var(--blue)}
+.tag-gold{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.15);color:var(--gold)}
+
+/* PLANS GRID */
+.plans{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:10px}
+.plan{background:var(--navy-mid);border:1px solid var(--border);border-radius:12px;padding:22px;position:relative;overflow:hidden}
+.plan-bar{position:absolute;top:0;left:0;right:0;height:3px;background:var(--border)}
+.plan.featured-blue{background:var(--navy-light);border-color:var(--blue);border-width:1.5px}
+.plan.featured-blue .plan-bar{background:var(--blue)}
+.plan.featured-gold{background:var(--navy-light);border-color:rgba(201,168,76,.4);border-width:1.5px}
+.plan.featured-gold .plan-bar{background:var(--gold)}
+.plan-badge{font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.featured-blue .plan-badge{color:var(--blue)}
+.featured-gold .plan-badge{color:var(--gold)}
+.plan-name{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:4px}
+.plan-price{font-size:32px;font-weight:500;line-height:1;margin-bottom:2px}
+.plan-price sup{font-size:16px;font-weight:300;vertical-align:super}
+.plan-cadence{font-size:11px;color:var(--muted);margin-bottom:18px}
+.plan-div{height:1px;background:var(--border);margin-bottom:14px}
+.plan-sec{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px}
+.plan-sec:first-of-type{margin-top:0}
+.plan-item{font-size:11px;color:rgba(240,244,248,.5);padding-left:13px;position:relative;line-height:1.75}
+.plan-item::before{content:"";position:absolute;left:0;top:7px;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.1)}
+.plan-item.k{color:var(--text)}
+.k-blue::before{background:var(--blue)}
+.k-gold::before{background:var(--gold)}
+.itag{display:inline-block;font-size:9px;font-weight:500;padding:1px 6px;border-radius:10px;margin-left:4px;vertical-align:middle}
+.itag-blue{background:rgba(74,158,255,.15);color:var(--blue)}
+.itag-gold{background:rgba(201,168,76,.12);color:var(--gold)}
+
+/* PRICE HERO (emprendedores) */
+.price-hero{background:var(--navy-mid);border:1px solid rgba(62,207,142,.2);border-radius:12px;padding:24px 28px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:20px}
+
+/* PERM */
+.perm{font-size:11px;color:var(--muted);text-align:center;padding:8px 0 22px;border-bottom:1px solid var(--border);margin-bottom:28px}
+.perm span{color:var(--warm);font-weight:500}
+
+/* ASTERISK */
+.asterisk{font-size:10px;color:var(--muted);padding-bottom:28px;line-height:1.6;border-left:2px solid rgba(255,255,255,.06);padding-left:10px}
+
+/* ADDONS */
+.addons-title{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:6px}
+.addons-sub{font-size:12px;color:var(--muted);margin-bottom:18px}
+.addons-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:40px}
+.addons-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:32px}
+.addon{background:var(--navy-mid);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.addon-name{font-size:12px;font-weight:500}
+.addon-price{font-size:20px;font-weight:500;line-height:1}
+.addon-price sup{font-size:11px;font-weight:300;vertical-align:super}
+.addon-cadence{font-size:10px;color:var(--muted)}
+.addon-desc{font-size:11px;color:var(--muted);line-height:1.4}
+
+/* CASO */
+.caso{border-radius:10px;padding:14px 18px;margin-bottom:32px}
+.caso-blue{background:rgba(74,158,255,.04);border:1px solid rgba(74,158,255,.12)}
+.caso-gold{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12)}
+.caso-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.caso-label-blue{color:var(--blue)}
+.caso-label-gold{color:var(--gold)}
+.caso-text{font-size:11px;color:var(--muted);line-height:1.6}
+.caso-text strong{color:var(--text);font-weight:500}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding-top:26px;display:flex;justify-content:space-between;align-items:center}
+.footer-name{font-family:'DM Serif Display',serif;font-size:15px}
+.footer-contact{font-size:11px;color:var(--muted);margin-top:3px}
+.footer-right{text-align:right}
+.footer-web-blue{font-size:12px;color:var(--blue)}
+.footer-web-gold{font-size:12px;color:var(--gold)}
+.footer-locs{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.04em}
+.footer-copy{font-size:10px;color:var(--muted);margin-top:3px}
+</style>
+</head>
+<body>
+
+<div class="tabs-nav">
+  <button class="tab-btn active-blue" onclick="showTab('consultores', this, 'active-blue')">Membresías · Consultores</button>
+  <button class="tab-btn" onclick="showTab('empresas', this, 'active-gold')">Retainer · PYMEs</button>
+</div>
+
+<!-- TAB CONSULTORES -->
+<div id="tab-consultores" class="tab-panel active">
+<div class="page">
+
+  <div class="header">
+    <div><div class="logo-text">ON BOARD 360</div><div class="logo-sub">Hub de consultores · Fractional Executive</div></div>
+    <div class="header-right"><div class="pill pill-blue">Internacional · USD</div><div class="doc-label">Oferta de servicios</div><div class="doc-title">Membresías para consultores</div></div>
+  </div>
+
+  <div class="intro">
+    <div class="headline headline-blue">Tu propia consultora,<br><em>con infraestructura de firma.</em></div>
+    <div class="intro-body">OB-360 es el primer hub digital del mundo hispanohablante que transforma profesionales senior en consultores de alto impacto. Infraestructura, tecnología con IA y respaldo desde el primer día — sin construirlo todo tú solo.</div>
+    <div class="tag tag-blue">El único hub de este tipo en el mercado hispanohablante · Barcelona · Lima · Milán</div>
+  </div>
+
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-bar"></div>
+      <div class="plan-badge">Membresía · Básica</div>
+      <div class="plan-name">Básica</div>
+      <div class="plan-price"><sup>$</sup>49</div>
+      <div class="plan-cadence">por mes</div>
+      <div class="plan-div"></div>
+      <div class="plan-sec">Infraestructura incluida</div>
+      <div class="plan-item k k-blue">Correo @ob-360.com <span class="itag itag-blue">incluido</span></div>
+      <div class="plan-item k k-blue">Google Workspace Standard <span class="itag itag-blue">incluido</span></div>
+      <div class="plan-item k k-blue">Oficina virtual OB-360</div>
+      <div class="plan-item k k-blue">Co-branding en propuestas</div>
+    </div>
+    <div class="plan featured-blue">
+      <div class="plan-bar"></div>
+      <div class="plan-badge">Membresía · Estándar</div>
+      <div class="plan-name">Estándar</div>
+      <div class="plan-price"><sup>$</sup>79</div>
+      <div class="plan-cadence">por mes</div>
+      <div class="plan-div"></div>
+      <div class="plan-sec">Infraestructura incluida</div>
+      <div class="plan-item k k-blue">Todo lo de membresía Básica</div>
+      <div class="plan-item k k-blue">Oficina virtual configurada a tu consultoría</div>
+      <div class="plan-item k k-blue">Perfil como especialista en ob-360.com</div>
+      <div class="plan-item k k-blue">Implementación de hasta 2 herramientas IA*</div>
+      <div class="plan-sec">Servicios incluidos</div>
+      <div class="plan-item k k-blue">Co-elaboración de presentación de servicios</div>
+      <div class="plan-item k k-blue">Co-elaboración de paquetes de servicios</div>
+    </div>
+    <div class="plan">
+      <div class="plan-bar"></div>
+      <div class="plan-badge">Membresía · Pro</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price"><sup>$</sup>129</div>
+      <div class="plan-cadence">por mes</div>
+      <div class="plan-div"></div>
+      <div class="plan-sec">Infraestructura incluida</div>
+      <div class="plan-item k k-blue">Todo lo de membresía Estándar</div>
+      <div class="plan-item k k-blue">Derivación de clientes desde el hub</div>
+      <div class="plan-item k k-blue">1 automatización + IA incluida</div>
+      <div class="plan-sec">Servicios incluidos</div>
+      <div class="plan-item k k-blue">Co-elaboración de presentación de servicios</div>
+      <div class="plan-item k k-blue">Co-elaboración de paquetes de servicios</div>
+      <div class="plan-item k k-blue">Revisión del modelo de negocio</div>
+      <div class="plan-item k k-blue">Co-elaboración de plan de negocio</div>
+    </div>
+  </div>
+
+  <div class="perm">Todos los planes tienen una <span>permanencia mínima de 6 meses</span></div>
+  <div class="asterisk">* Las suscripciones a herramientas de IA corren por cuenta del consultor. OB-360 implementa, configura y acompaña el proceso de adopción.</div>
+
+  <div class="addons-title">Servicios adicionales</div>
+  <div class="addons-sub">Disponibles para cualquier membresía. Contratación independiente, sin permanencia mínima.</div>
+  <div class="addons-grid">
+    <div class="addon"><div class="addon-name">Gestoría contable y tributaria</div><div class="addon-price"><sup>$</sup>65</div><div class="addon-cadence">por mes</div><div class="addon-desc">Gestión contable y tributaria mensual. Al día con tus obligaciones fiscales locales.</div></div>
+    <div class="addon"><div class="addon-name">Coaching personal</div><div class="addon-price"><sup>$</sup>65</div><div class="addon-cadence">por mes · 1 sesión de 45 min</div><div class="addon-desc">Desarrollo personal y liderazgo orientado al consultor profesional.</div></div>
+    <div class="addon"><div class="addon-name">Automatización + IA</div><div class="addon-price"><sup>$</sup>65</div><div class="addon-cadence">pago único</div><div class="addon-desc">Configuración de un flujo automatizado para tu consultoría: captación, seguimiento u otros procesos.</div></div>
+    <div class="addon"><div class="addon-name">Asistente IA autónomo</div><div class="addon-price"><sup>$</sup>245</div><div class="addon-cadence">pago único</div><div class="addon-desc">Diseño y configuración de un asistente IA autónomo personalizado para tu consultoría.</div></div>
+  </div>
+
+  <div class="footer">
+    <div><div class="footer-name">Hans Lucana · Fundador OB-360</div><div class="footer-contact">hlucana@ob-360.com · +34 623 951 801</div></div>
+    <div class="footer-right"><div class="footer-web-blue">www.ob-360.com</div><div class="footer-locs">Barcelona · Lima · Milán</div><div class="footer-copy">© 2026 On Board 360 · Todos los derechos reservados</div></div>
+  </div>
+
+</div>
+</div>
+
+<!-- TAB EMPRESAS -->
+<div id="tab-empresas" class="tab-panel">
+<div class="page">
+
+  <div class="header">
+    <div><div class="logo-text">ON BOARD 360</div><div class="logo-sub">Hub de consultores · Fractional Executive</div></div>
+    <div class="header-right"><div class="pill pill-gold">Para PYMEs y empresas familiares</div><div class="doc-label">Oferta de servicios</div><div class="doc-title">Retainer Fractional Executive</div></div>
+  </div>
+
+  <div class="intro">
+    <div class="headline headline-gold">El directivo que tu empresa necesita,<br><em>sin los costos de tenerlo en planilla.</em></div>
+    <div class="intro-body">Accede a dirección estratégica senior, tecnología con IA y respaldo operativo completo — en un retainer mensual flexible, sin contratación permanente, sin costos fijos de planilla. Tu empresa compite como una grande, con la agilidad de una PYME.</div>
+    <div class="tag tag-gold">Para PYMEs · Empresas familiares · Lima · Barcelona · Milán · Internacional · USD</div>
+  </div>
+
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-bar"></div>
+      <div class="plan-badge">Plan · Arranque</div>
+      <div class="plan-name">Arranque</div>
+      <div class="plan-price"><sup>$</sup>450</div>
+      <div class="plan-cadence">por mes</div>
+      <div class="plan-div"></div>
+      <div class="plan-sec">Equipo asignado</div>
+      <div class="plan-item k k-gold">1 Fractional Executive</div>
+      <div class="plan-sec">Sesiones</div>
+      <div class="plan-item k k-gold">2 sesiones/mes · 60 min c/u</div>
+      <div class="plan-item k k-gold">Acompañamiento WhatsApp días hábiles</div>
+      <div class="plan-sec">Tecnología incluida</div>
+      <div class="plan-item k k-gold">Oficina virtual OB-360 <span class="itag itag-gold">incluida</span></div>
+      <div class="plan-item k k-gold">1 automatización + IA</div>
+      <div class="plan-item k k-gold">1 asistente IA autónomo</div>
+      <div class="plan-sec">Reportería</div>
+      <div class="plan-item k k-gold">Informe mensual de avance</div>
+    </div>
+    <div class="plan featured-gold">
+      <div class="plan-bar"></div>
+      <div class="plan-badge">Plan · Impulso · Más elegido</div>
+      <div class="plan-name">Impulso</div>
+      <div class="plan-price"><sup>$</sup>950</div>
+      <div class="plan-cadence">por mes</div>
+      <div class="plan-div"></div>
+      <div class="plan-sec">Equipo asignado</div>
+      <div class="plan-item k k-gold">Hasta 2 Fractional Executives</div>
+      <div class="plan-sec">Sesiones</div>
+      <div class="plan-item k k-gold">4 sesiones/mes · 60 min c/u</div>
+      <div class="plan-item k k-gold">Acompañamiento WhatsApp días hábiles</div>
+      <div class="plan-sec">Tecnología incluida</div>
+      <div class="plan-item k k-gold">Oficina virtual OB-360 <span class="itag itag-gold">incluida</span></div>
+      <div class="plan-item k k-gold">Hasta 2 automatizaciones + IA</div>
+      <div class="plan-item k k-gold">Hasta 2 asistentes IA autónomos</div>
+      <div class="plan-sec">Reportería</div>
+      <div class="plan-item k k-gold">Informe mensual de avance</div>
+      <div class="plan-item k k-gold">Dashboard de indicadores clave</div>
+    </div>
+    <div class="plan">
+      <div class="plan-bar"></div>
+      <div class="plan-badge">Plan · Dirección</div>
+      <div class="plan-name">Dirección</div>
+      <div class="plan-price"><sup>$</sup>1,450</div>
+      <div class="plan-cadence">por mes</div>
+      <div class="plan-div"></div>
+      <div class="plan-sec">Equipo asignado</div>
+      <div class="plan-item k k-gold">Hasta 3 Fractional Executives</div>
+      <div class="plan-sec">Sesiones</div>
+      <div class="plan-item k k-gold">6 sesiones/mes · 60 min c/u</div>
+      <div class="plan-item k k-gold">Acompañamiento WhatsApp días hábiles</div>
+      <div class="plan-sec">Tecnología incluida</div>
+      <div class="plan-item k k-gold">Oficina virtual OB-360 <span class="itag itag-gold">incluida</span></div>
+      <div class="plan-item k k-gold">Hasta 3 automatizaciones + IA</div>
+      <div class="plan-item k k-gold">Hasta 3 asistentes IA autónomos</div>
+      <div class="plan-sec">Reportería</div>
+      <div class="plan-item k k-gold">Informe mensual de avance</div>
+      <div class="plan-item k k-gold">Dashboard de indicadores clave</div>
+      <div class="plan-item k k-gold">Sesión trimestral de revisión estratégica</div>
+    </div>
+  </div>
+
+  <div class="perm">Todos los planes tienen una <span>permanencia mínima de 6 meses</span> · Precios en USD · Facturación mensual</div>
+
+  <div class="addons-title">Servicios adicionales</div>
+  <div class="addons-sub">Disponibles para cualquier plan. Contratación independiente, sin permanencia mínima.</div>
+  <div class="addons-grid-3">
+    <div class="addon"><div class="addon-name">Fractional Executive adicional</div><div class="addon-price"><sup>$</sup>500</div><div class="addon-cadence">por mes</div><div class="addon-desc">Incorpora un ejecutivo fractional adicional a tu equipo de dirección.</div></div>
+    <div class="addon"><div class="addon-name">Automatización + IA adicional</div><div class="addon-price"><sup>$</sup>265</div><div class="addon-cadence">pago único</div><div class="addon-desc">Flujo automatizado adicional para procesos clave de tu empresa.</div></div>
+    <div class="addon"><div class="addon-name">Asistente IA autónomo adicional</div><div class="addon-price"><sup>$</sup>945</div><div class="addon-cadence">pago único</div><div class="addon-desc">Asistente IA adicional configurado para roles específicos de tu empresa.</div></div>
+  </div>
+
+  <div class="caso caso-gold">
+    <div class="caso-label caso-label-gold">Caso de referencia</div>
+    <div class="caso-text"><strong>Acogas</strong> — empresa del sector energético. Actualmente en retainer OB-360, con dirección estratégica, automatización de procesos clave y asistente IA autónomo implementado.</div>
+  </div>
+
+  <div class="footer">
+    <div><div class="footer-name">Hans Lucana · Fundador OB-360</div><div class="footer-contact">hlucana@ob-360.com · +34 623 951 801</div></div>
+    <div class="footer-right"><div class="footer-web-gold">www.ob-360.com</div><div class="footer-locs">Barcelona · Lima · Milán</div><div class="footer-copy">© 2026 On Board 360 · Todos los derechos reservados</div></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function showTab(name, btn, activeClass) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active-blue', 'active-gold');
+  });
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add(activeClass);
+}
+</script>
+</body>
+</html>
